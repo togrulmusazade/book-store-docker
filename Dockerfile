@@ -14,12 +14,20 @@
 #COPY --from=build target/*.jar app.jar
 #ENTRYPOINT ["java", "-jar", "app.jar"]
 
+#-------
 
 
 FROM openjdk:11
 WORKDIR /app
-COPY . .
-RUN chmod +x mvnw && ./mvnw clean install -U
-ENTRYPOINT ["./mvnw", "spring-boot:run"]
+ADD target/book-store-0.0.1-SNAPSHOT.jar book-store-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=docker", "book-store-0.0.1-SNAPSHOT.jar"]
+
+
+
+#FROM openjdk:11
+#WORKDIR /app
+#COPY . .
+#RUN chmod +x mvnw && ./mvnw clean install -U
+#ENTRYPOINT ["./mvnw", "spring-boot:run"]
 
 
